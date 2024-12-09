@@ -11,7 +11,7 @@ services:
       - mysql-data:/var/lib/mysql
 
   zabbix-server-mysql:
-    image: zabbix/zabbix-server-mysql:latest
+    image: zabbix/zabbix-server-mysql:7.0-ubuntu-latest
     environment:
       DB_SERVER_HOST: mysql-server
       MYSQL_USER: zabbix
@@ -23,7 +23,7 @@ services:
       - mysql-server
 
   zabbix-web-nginx:
-    image: zabbix/zabbix-web-nginx:latest
+    image: zabbix/zabbix-web-nginx-mysql:7.0-ubuntu-latest
     environment:
       DB_SERVER_HOST: mysql-server
       MYSQL_USER: zabbix
