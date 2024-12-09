@@ -3,36 +3,45 @@ services:
   mysql-server:
     image: mysql:5.7
     environment:
-      MYSQL_ROOT_PASSWORD: zabbix
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: zabbix
       MYSQL_USER: zabbix
-      MYSQL_PASSWORD: zabbix
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - mysql-data:/var/lib/mysql
+    networks:
+      - zabbix-net
 
   zabbix-server-mysql:
     image: zabbix/zabbix-server-mysql:7.0-ubuntu-latest
     environment:
       DB_SERVER_HOST: mysql-server
       MYSQL_USER: zabbix
-      MYSQL_PASSWORD: zabbix
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: zabbix
     ports:
       - "10051:10051"
     depends_on:
       - mysql-server
+    networks:
+      - zabbix-net
 
   zabbix-web-nginx:
     image: zabbix/zabbix-web-nginx-mysql:7.0-ubuntu-latest
     environment:
       DB_SERVER_HOST: mysql-server
       MYSQL_USER: zabbix
-      MYSQL_PASSWORD: zabbix
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: zabbix
     ports:
       - "8080:8080"
     depends_on:
       - zabbix-server-mysql
+    networks:
+      - zabbix-net
 
 volumes:
   mysql-data:
+
+networks:
+  zabbix-net:
