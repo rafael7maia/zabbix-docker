@@ -1,0 +1,38 @@
+version: '3.5'
+services:
+  mysql-server:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: zabbix
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbix
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  zabbix-server-mysql:
+    image: zabbix/zabbix-server-mysql:latest
+    environment:
+      DB_SERVER_HOST: mysql-server
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbix
+      MYSQL_DATABASE: zabbix
+    ports:
+      - "10051:10051"
+    depends_on:
+      - mysql-server
+
+  zabbix-web-nginx:
+    image: zabbix/zabbix-web-nginx:latest
+    environment:
+      DB_SERVER_HOST: mysql-server
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbix
+      MYSQL_DATABASE: zabbix
+    ports:
+      - "8080:8080"
+    depends_on:
+      - zabbix-server-mysql
+
+volumes:
+  mysql-data:
