@@ -5,7 +5,7 @@ services:
     image: zabbix/zabbix-appliance:latest
     container_name: zabbix-appliance
     ports:
-      - "8080:8080"   # Porta do frontend
+      - "80:80"   # Porta do frontend
       - "10051:10051" # Porta do servidor Zabbix
     volumes:
       - zabbix_data:/var/lib/zabbix # Volume para persistência de dados
