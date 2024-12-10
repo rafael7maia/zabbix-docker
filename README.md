@@ -1,4 +1,3 @@
-Aqui está um exemplo de um arquivo `README.md` que explica o uso dos arquivos `docker-compose.yml` e do script de instalação do agente Zabbix:
 
 ```markdown
 # Monitoramento com Zabbix usando Docker e Agente Zabbix
