@@ -1,35 +1,15 @@
-version: '3.5'
-services:
-  zabbix-server-mysql:
-    image: zabbix/zabbix-server-mysql:7.0-ubuntu-latest
-    environment:
-      DB_SERVER_HOST: mysql-server
-      MYSQL_USER: zabbix
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: zabbix
-    ports:
-      - "10051:10051"
-    depends_on:
-      - mysql-server
-    networks:
-      - zabbix-net
+version: '3.8'
 
-  zabbix-web-nginx:
-    image: zabbix/zabbix-web-nginx-mysql:7.0-ubuntu-latest
-    environment:
-      DB_SERVER_HOST: mysql-server
-      MYSQL_USER: zabbix
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: zabbix
+services:
+  zabbix-appliance:
+    image: zabbix/zabbix-appliance:latest
+    container_name: zabbix-appliance
     ports:
-      - "8080:8080"
-    depends_on:
-      - zabbix-server-mysql
-    networks:
-      - zabbix-net
+      - "8080:8080"   # Porta do frontend
+      - "10051:10051" # Porta do servidor Zabbix
+    volumes:
+      - zabbix_data:/var/lib/zabbix # Volume para persistência de dados
+    restart: always
 
 volumes:
-  mysql-data:
-
-networks:
-  zabbix-net:
+  zabbix_data:
