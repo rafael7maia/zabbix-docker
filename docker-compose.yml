@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   zabbix-appliance:
-    image: zabbix/zabbix-appliance:latest
+    image: zabbix/zabbix-appliance:ubuntu-latest
     container_name: zabbix-appliance
     ports:
       - "80:80"   # Porta do frontend
